@@ -13,46 +13,46 @@ let questions = [
   },
     {
     numb: 2,
-    question: "What does CSS stand for?",
-    answer: "Cascading Style Sheet",
+    question: "What is another term for lexical scope?",
+    answer: "Static scope",
     options: [
-      "Common Style Sheet",
-      "Colorful Style Sheet",
-      "Computer Style Sheet",
-      "Cascading Style Sheet"
+      "Variable scope",
+      "Dynamic scope",
+      "Quick scope",
+      "Static scope"
     ]
   },
     {
     numb: 3,
-    question: "What does PHP stand for?",
-    answer: "Hypertext Preprocessor",
+    question: "Which of the following operators does JavaScript not recognize?",
+    answer: "$",
     options: [
-      "Hypertext Preprocessor",
-      "Hypertext Programming",
-      "Hypertext Preprogramming",
-      "Hometext Preprocessor"
+      "$",
+      "!==",
+      "**",
+      "?"
     ]
   },
     {
     numb: 4,
-    question: "What does SQL stand for?",
-    answer: "Structured Query Language",
+    question: "Is JavaScript a third-party API or server-side API?",
+    answer: "Neither",
     options: [
-      "Stylish Question Language",
-      "Stylesheet Query Language",
-      "Statement Question Language",
-      "Structured Query Language"
+      "Third-party API",
+      "Server-side API",
+      "Both",
+      "Neither"
     ]
   },
     {
     numb: 5,
-    question: "What does XML stand for?",
-    answer: "eXtensible Markup Language",
+    question: "What does var stand for?",
+    answer: "Variable",
     options: [
-      "eXtensible Markup Language",
-      "eXecutable Multiple Language",
-      "eXTra Multi-Program Language",
-      "eXamine Multiple Language"
+      "Value after return",
+      "Variable",
+      "Variance",
+      "Varied alternative response"
     ]
   },
    {
