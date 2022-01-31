@@ -175,33 +175,16 @@ function startTimer(time){
             timeCount.textContent = "0" + addZero; // add a 0 before time value
         }
         if(time < 0){ // if timer is less than 0
-            clearInterval(counter); // clear counter
-            timeText.textContent = "Time left"; // change time text to time off
-            const allOptions = option_list.children.length; // get all option items
-            let correcAns = questions[que_count].answer; // get correct answer from array
-            for(i=0; i < allOptions; i++){
-                if(option_list.children[i].textContent == correcAns){ // if there is an option which is matched to an array answer
-                    option_list.children[i].setAttribute("class", "option correct"); // add green color to matched option
-                    option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); // add tick icon to matched option
-                    console.log("Time Off: Auto selected correct answer.");
-                }
-            }
-            for(i=0; i < allOptions; i++){
-                option_list.children[i].classList.add("disabled"); // once user selects an option then disable all options
-            }
-            next_btn.classList.add("show"); // show the next button if user selected any option
-        }
+            showResult();
     }
+}
 }
 
 function startTimerLine(time){
-    counterLine = setInterval(timer, 29);
+    counterLine = setInterval(timer, 111);
     function timer(){
         time += 1; // upgrading time value with 1
         time_line.style.width = time + "px"; // increase width of time_line with px by time value
-        if(time > 549){ // if time value is greater than 549
-            clearInterval(counterLine); // clear counterLine
-        }
     }
 }
 
