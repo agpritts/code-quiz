@@ -383,5 +383,6 @@ footer button.show{
 }
 
 #textfield {
-    margin-left: 70px;
+    margin-left: 75px;
+    text-align: center;
 }
