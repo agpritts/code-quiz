@@ -33,7 +33,6 @@ continue_btn.onclick = ()=>{
 let timeValue =  60;
 let que_count = 0;
 let que_numb = 1;
-let userScore = 0;
 let counter;
 let counterLine;
 let widthValue = 0;
@@ -48,14 +47,13 @@ restart_quiz.onclick = ()=>{
     timeValue = 60; 
     que_count = 0;
     que_numb = 1;
-    userScore = 0;
     widthValue = 0;
     showQuestions(que_count); // call showQuestions function
     queCounter(que_numb); // pass que_numb value to queCounter
     clearInterval(counter); // clear counter
     clearInterval(counterLine); // clear counterLine
-    startTimer(timeValue); // call startTimer function
-    startTimerLine(widthValue); // call startTimerLine function
+    startTimer(); // call startTimer function
+    startTimerLine(); // call startTimerLine function
     timeText.textContent = "Time Left"; // change text of timeText to Time Left
     next_btn.classList.remove("show"); // hide the nextQuestion button
 }
@@ -75,10 +73,6 @@ next_btn.onclick = ()=>{
         que_numb++; // increment que_numb value
         showQuestions(que_count); // call showQuestions function
         queCounter(que_numb); // pass que_numb value to queCounter
-        clearInterval(counter); // clear counter
-        clearInterval(counterLine); // clear counterLine
-        startTimer(timeValue); // call startTimer function
-        startTimerLine(widthValue); // call startTimerLine function
         timeText.textContent = "Time Left"; // change text of timeText to Time Left
         next_btn.classList.remove("show"); // hide the nextQuestion button
     }else{
@@ -114,25 +108,23 @@ let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
 
 // if user clicked option
 function optionSelected(answer){
-    clearInterval(counter); // clear counter
-    clearInterval(counterLine); // clear counterLine
     let userAns = answer.textContent; // get user selected option
-    let correcAns = questions[que_count].answer; // get correct answer from array
+    let correctAns = questions[que_count].answer; // get correct answer from array
     const allOptions = option_list.children.length; // get all option items
     
-    if(userAns == correcAns){ // if user selected option is equal to array's correct answer
-        userScore += 1; // upgrade score value with 1
+    if(userAns == correctAns){ // if user selected option is equal to array's correct answer
         answer.classList.add("correct"); // add green color to correct selected option
         answer.insertAdjacentHTML("beforeend", tickIconTag); // add tick icon to correct selected option
         console.log("Correct Answer");
-        console.log("Your correct answers = " + userScore);
+        // console.log("Your correct answers = " + userScore);
     }else{
         answer.classList.add("incorrect"); // add red color to incorrect selected option
         answer.insertAdjacentHTML("beforeend", crossIconTag); // add cross icon to incorrect selected option
         console.log("Wrong Answer");
+        timeValue -= 6;
 
         for(i=0; i < allOptions; i++){
-            if(option_list.children[i].textContent == correcAns){ // if there is an option which is matched to an array answer 
+            if(option_list.children[i].textContent == correctAns){ // if there is an option which is matched to an array answer 
                 option_list.children[i].setAttribute("class", "option correct"); // add green color to matched option
                 option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); // add tick icon to matched option
                 console.log("Auto selected correct answer.");
@@ -150,41 +142,74 @@ function showResult(){
     quiz_box.classList.remove("activeQuiz"); // hide quiz box
     result_box.classList.add("activeResult"); // show result box
     const scoreText = result_box.querySelector(".score_text");
-    if (userScore > 3){ // if user scored more than 3
-        // create new span tag and pass the user score number and total question number
-        let scoreTag = '<span>You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
-        scoreText.innerHTML = scoreTag;  // add new span tag inside score_Text
-    }
-    else if(userScore > 1){ // if user scored more than 1
-        let scoreTag = '<span>You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
-        scoreText.innerHTML = scoreTag;
-    }
-    else{ // if user scored less than 1
-        let scoreTag = '<span>You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
-        scoreText.innerHTML = scoreTag;
-    }
-}
+    let scoreTag = '<span>You finished with ' + timeValue + ' seconds left<span>'
+    scoreText.innerHTML = scoreTag;
+    scoreText.innerHTML += "<input id='textfield' type='text' />";
+    console.log('document.getElementById: ', document.getElementById('submit'));
+    document.getElementById('submit').addEventListener('click', storeResult);
+    
+    
 
-function startTimer(time){
+    // get user's initials (event listener)
+    // input validation for intials on button listener 
+    // add text box
+    // execute function to put initials and timevalue in localstorage
+    // display localstorage inputs
+    // reset quiz
+
+//     // if (userScore > 3){ // if user scored more than 3
+//         // create new span tag and pass the user score number and total question number
+//         let scoreTag = '<span>Awesome! You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+//         scoreText.innerHTML = scoreTag;  // add new span tag inside score_Text
+//     }
+//     // else if(userScore > 1){ // if user scored more than 1
+//         let scoreTag = '<span>You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+//         scoreText.innerHTML = scoreTag;
+//     }
+//     // else{ // if user scored 1 or less
+//         let scoreTag = '<span>Oof. You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+//         scoreText.innerHTML = scoreTag;
+//     }
+};
+
+function storeResult() {
+    var storage = window.localStorage;
+    var initials = document.getElementById('textfield').value;
+    storage.setItem(initials, timeValue);
+    
+    var curr_ids = new Map(JSON.parse(storage.getItem("ids")));
+    if (curr_ids === null) {
+        curr_ids = new Map();
+    }
+    curr_ids.set(initials, timeValue);
+    storage.setItem("ids", JSON.stringify([...curr_ids]));
+    curr_ids = new Map(JSON.parse(storage.getItem("ids")));
+    // console.log(curr_ids);
+    curr_ids.forEach((val, key) => {
+        console.log(key + ": " + val);
+    });
+};
+
+function startTimer(){
     counter = setInterval(timer, 1000);
     function timer(){
-        timeCount.textContent = time; // change value of timeCount with time value
-        time--; // decrement time value
-        if(time < 9){ // if timer is less than 9
+        timeCount.textContent = timeValue; // change value of timeCount with time value
+        timeValue--; // decrement time value
+        if(timeValue < 9){ // if timer is less than 9
             let addZero = timeCount.textContent; 
             timeCount.textContent = "0" + addZero; // add a 0 before time value
         }
-        if(time < 0){ // if timer is less than 0
+        if(timeValue < 0){ // if timer is less than 0
             showResult();
     }
 }
 }
 
-function startTimerLine(time){
+function startTimerLine(){
     counterLine = setInterval(timer, 111);
     function timer(){
-        time += 1; // upgrading time value with 1
-        time_line.style.width = time + "px"; // increase width of time_line with px by time value
+        // time += 1; // upgrading time value with 1
+        // time_line.style.width = time + "px"; // increase width of time_line with px by time value
     }
 }
 

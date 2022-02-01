@@ -353,7 +353,7 @@ footer button.show{
     margin: 0 10px;
     height: 45px;
     padding: 0 20px;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     border: none;
@@ -380,4 +380,8 @@ footer button.show{
 .buttons button.quit:hover{
     color: #fff;
     background: #007bff;
+}
+
+#textfield {
+    margin-left: 70px;
 }
