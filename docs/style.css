@@ -382,6 +382,15 @@ footer button.show{
     background: #007bff;
 }
 
+#submit{
+    color: #fff;
+    background: #007bff;
+}
+
+#submit:hover{
+    background: #0263ca;
+}
+
 #textfield {
     margin-left: 75px;
     text-align: center;

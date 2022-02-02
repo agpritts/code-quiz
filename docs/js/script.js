@@ -36,6 +36,7 @@ let que_numb = 1;
 let counter;
 let counterLine;
 let widthValue = 0;
+let finished = false;
 
 const restart_quiz = result_box.querySelector(".buttons .restart");
 const quit_quiz = result_box.querySelector(".buttons .quit");
@@ -48,6 +49,7 @@ restart_quiz.onclick = ()=>{
     que_count = 0;
     que_numb = 1;
     widthValue = 0;
+    finished = false;
     showQuestions(que_count); // call showQuestions function
     queCounter(que_numb); // pass que_numb value to queCounter
     clearInterval(counter); // clear counter
@@ -147,7 +149,7 @@ function showResult(){
     scoreText.innerHTML += "<input id='textfield' type='text' />";
     console.log('document.getElementById: ', document.getElementById('submit'));
     document.getElementById('submit').addEventListener('click', storeResult);
-    
+    return;
     
 
     // get user's initials (event listener)
@@ -176,7 +178,7 @@ function storeResult() {
     var storage = window.localStorage;
     var initials = document.getElementById('textfield').value;
     storage.setItem(initials, timeValue);
-    
+
     var curr_ids = new Map(JSON.parse(storage.getItem("ids")));
     if (curr_ids === null) {
         curr_ids = new Map();
@@ -193,15 +195,20 @@ function storeResult() {
 function startTimer(){
     counter = setInterval(timer, 1000);
     function timer(){
-        timeCount.textContent = timeValue; // change value of timeCount with time value
+        if (!finished) {
+            timeCount.textContent = timeValue; // change value of timeCount with time value
         timeValue--; // decrement time value
         if(timeValue < 9){ // if timer is less than 9
             let addZero = timeCount.textContent; 
             timeCount.textContent = "0" + addZero; // add a 0 before time value
         }
-        if(timeValue < 0){ // if timer is less than 0
+        if(timeValue <= 0){ // if timer is less than 0
+            timeValue = 0;
+            finished = true;
             showResult();
-    }
+            return 0;
+        }
+        }
 }
 }
 
