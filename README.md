@@ -1,4 +1,4 @@
-# Challenge 4: Code Quiz
+# 🤓 Code Quiz
 
 ## Work Done
 Built in-browser JavaScript quiz using HTML, CSS, and JavaScript </br>
